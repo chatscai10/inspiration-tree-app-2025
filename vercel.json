@@ -12,27 +12,14 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ],
-  "env": {
-    "VITE_SUPABASE_URL": "@supabase_url",
-    "VITE_SUPABASE_ANON_KEY": "@supabase_anon_key"
-  },
   "build": {
     "env": {
       "VITE_SUPABASE_URL": "@supabase_url",
       "VITE_SUPABASE_ANON_KEY": "@supabase_anon_key"
-    }
-  },
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
     }
   },
   "headers": [
