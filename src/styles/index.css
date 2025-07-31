@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全域樣式 */
+@layer base {
+  html {
+    font-size: 16px; /* 防止 iOS Safari 自動縮放 */
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* 安全區域適配 */
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* 手機優化組件 */
+@layer components {
+  /* 觸控按鈕 */
+  .btn-touch {
+    @apply min-h-touch min-w-touch flex items-center justify-center rounded-lg font-medium transition-all duration-150;
+    @apply active:scale-95 active:opacity-80;
+  }
+  
+  .btn-primary {
+    @apply btn-touch bg-primary-500 text-white hover:bg-primary-600;
+  }
+  
+  .btn-secondary {
+    @apply btn-touch bg-gray-200 text-gray-900 hover:bg-gray-300;
+  }
+  
+  /* 觸控輸入框 */
+  .input-touch {
+    @apply min-h-touch px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-colors;
+    font-size: 16px; /* 防止 iOS 縮放 */
+  }
+  
+  /* 手機專用卡片 */
+  .mobile-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+  
+  /* 觸控友善的清單項目 */
+  .touch-list-item {
+    @apply min-h-touch px-4 py-3 flex items-center space-x-3 active:bg-gray-50 transition-colors;
+  }
+  
+  /* 手勢操作提示 */
+  .gesture-hint {
+    @apply text-xs text-gray-400 italic;
+  }
+}
+
+/* 手機專用工具類 */
+@layer utilities {
+  /* 隱藏滾動條但保持功能 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 觸控區域擴展 */
+  .touch-expand {
+    position: relative;
+  }
+  
+  .touch-expand::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+  }
+  
+  /* 安全區域邊距 */
+  .pb-safe {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+  
+  .pt-safe {
+    padding-top: calc(1rem + env(safe-area-inset-top));
+  }
+}
+
+/* React Flow 客製化樣式 */
+.react-flow {
+  @apply bg-gray-50;
+}
+
+.react-flow__node {
+  @apply cursor-pointer;
+}
+
+.react-flow__edge {
+  stroke: theme('colors.inspiration.branch');
+  stroke-width: 2;
+}
+
+/* 動畫效果 */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 載入狀態 */
+.loading-spinner {
+  @apply inline-block w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin;
+}

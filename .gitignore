@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.vercel/
+
+# Environment variables (keep .env.local for deployment)
+# .env
+# .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# AI Tools temporary files (reduce upload size)
+ai-tools/inspiration-data.json
+ai-tools/ai-prompt.txt
+ai-tools/ai-response.json
+ai-tools/config.json
+ai-tools/*.backup
+ai-tools/*.tmp
+
+# Supabase local files
+supabase/.env
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+
+# Large documentation (can be regenerated)
+# Keep essential docs but remove large generated files
