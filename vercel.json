@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "inspiration-ecg-tool",
+  "name": "inspiration-ecg-mobile",
   "builds": [
     {
       "src": "package.json",
