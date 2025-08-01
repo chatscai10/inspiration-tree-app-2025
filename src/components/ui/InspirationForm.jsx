@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
-import { X, Save, Camera, Mic, Type, Image } from 'lucide-react'
+import { X, Save, Camera, Mic, Type, Image, AlertCircle } from 'lucide-react'
 import { useInspiration } from '../../hooks/useInspiration'
+import { useSupabase } from '../../utils/supabase'
+import AuthModal from './AuthModal'
 
 const InspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '' }) => {
   const { createInspiration, loading } = useInspiration()
+  const { user } = useSupabase()
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     content: initialContent,
@@ -39,6 +43,12 @@ const InspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '' }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // 檢查用戶是否已登入
+    if (!user) {
+      setShowAuthModal(true)
+      return
+    }
     
     if (!formData.title.trim()) {
       alert('請輸入標題')
@@ -108,6 +118,16 @@ const InspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '' }
 
         {/* 表單內容 */}
         <form onSubmit={handleSubmit} className="p-4 space-y-4 max-h-[calc(90vh-80px)] overflow-y-auto">
+          {/* 未登入提示 */}
+          {!user && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex items-start space-x-2">
+              <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+              <div className="text-sm">
+                <p className="text-yellow-800 font-medium">需要登入才能儲存靈感</p>
+                <p className="text-yellow-700">點擊「儲存」按鈕將引導您登入</p>
+              </div>
+            </div>
+          )}
           {/* 標題 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -187,6 +207,12 @@ const InspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '' }
             </button>
           </div>
         </form>
+
+        {/* 登入模態框 */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
       </div>
     </div>
   )

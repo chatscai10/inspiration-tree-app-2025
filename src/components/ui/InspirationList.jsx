@@ -1,9 +1,13 @@
-import React from 'react'
-import { Heart, Lightbulb, TreePine, Zap, Star, Plus } from 'lucide-react'
+import React, { useState } from 'react'
+import { Heart, Lightbulb, TreePine, Zap, Star, Plus, User, LogIn } from 'lucide-react'
 import { useInspiration } from '../../hooks/useInspiration'
+import { useSupabase } from '../../utils/supabase'
+import AuthModal from './AuthModal'
 
 const InspirationList = () => {
   const { inspirations, loading } = useInspiration()
+  const { user } = useSupabase()
+  const [showAuthModal, setShowAuthModal] = useState(false)
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -45,6 +49,32 @@ const InspirationList = () => {
   }
 
   if (inspirations.length === 0) {
+    // 如果未登入，顯示登入提示
+    if (!user) {
+      return (
+        <>
+          <div className="text-center py-12">
+            <User className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-500 mb-2">歡迎使用靈感心電圖</h3>
+            <p className="text-gray-400 mb-6">登入後開始記錄和管理你的靈感</p>
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-colors"
+            >
+              <LogIn className="w-5 h-5" />
+              <span>立即開始</span>
+            </button>
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-400 mt-4">
+              <TreePine className="w-4 h-4" />
+              <span>你的靈感樹正等待成長</span>
+            </div>
+          </div>
+          <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+        </>
+      )
+    }
+
+    // 已登入但沒有靈感
     return (
       <div className="text-center py-12">
         <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
