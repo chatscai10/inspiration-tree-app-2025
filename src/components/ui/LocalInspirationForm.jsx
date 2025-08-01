@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { X, Save, Camera, Mic, Type, Image } from 'lucide-react'
 import { useLocalInspiration } from '../../hooks/useLocalInspiration'
 
-const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '' }) => {
-  const { createInspiration, loading } = useLocalInspiration()
+const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent = '', editMode = false, initialData = null }) => {
+  const { createInspiration, updateInspiration, loading } = useLocalInspiration()
   const [formData, setFormData] = useState({
     title: '',
     content: initialContent,
@@ -13,15 +13,26 @@ const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent =
     priority: 'medium'
   })
 
-  // 當 initialContent 改變時更新表單
+  // 當進入編輯模式或 initialContent 改變時更新表單
   React.useEffect(() => {
-    if (initialContent) {
+    if (editMode && initialData) {
+      // 編輯模式：載入現有數據
+      setFormData({
+        title: initialData.title || '',
+        content: initialData.content || '',
+        type: initialData.type || type,
+        category: initialData.category_id || '',
+        tags: Array.isArray(initialData.tags) ? initialData.tags.join(', ') : '',
+        priority: initialData.priority || 'medium'
+      })
+    } else if (initialContent) {
+      // 新增模式：使用 initialContent
       setFormData(prev => ({
         ...prev,
         content: initialContent
       }))
     }
-  }, [initialContent])
+  }, [editMode, initialData, initialContent, type])
 
   const typeIcons = {
     text: Type,
@@ -56,23 +67,32 @@ const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent =
         status: 'active'
       }
 
-      await createInspiration(inspirationData)
+      if (editMode && initialData) {
+        // 編輯模式：更新現有靈感
+        await updateInspiration(initialData.id, inspirationData)
+        alert('靈感已成功更新！')
+      } else {
+        // 新增模式：創建新靈感
+        await createInspiration(inspirationData)
+        alert('靈感已成功新增！')
+      }
       
-      // 重置表單
-      setFormData({
-        title: '',
-        content: '',
-        type: type,
-        category: '',
-        tags: '',
-        priority: 'medium'
-      })
+      // 重置表單（只在新增模式下）
+      if (!editMode) {
+        setFormData({
+          title: '',
+          content: '',
+          type: type,
+          category: '',
+          tags: '',
+          priority: 'medium'
+        })
+      }
       
       onClose()
-      alert('靈感已成功新增！')
     } catch (error) {
-      console.error('新增靈感失敗:', error)
-      alert('新增失敗，請稍後再試')
+      console.error(editMode ? '更新靈感失敗:' : '新增靈感失敗:', error)
+      alert(editMode ? '更新失敗，請稍後再試' : '新增失敗，請稍後再試')
     }
   }
 
@@ -95,7 +115,7 @@ const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent =
           <div className="flex items-center space-x-2">
             <Icon className="w-5 h-5 text-blue-500" />
             <h2 className="text-lg font-semibold text-gray-900">
-              {typeLabels[formData.type]}
+              {editMode ? `編輯${typeLabels[formData.type]}` : typeLabels[formData.type]}
             </h2>
           </div>
           <button
@@ -190,7 +210,7 @@ const LocalInspirationForm = ({ isOpen, onClose, type = 'text', initialContent =
               className="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
             >
               <Save className="w-4 h-4" />
-              <span>{loading ? '儲存中...' : '儲存'}</span>
+              <span>{loading ? (editMode ? '更新中...' : '儲存中...') : (editMode ? '更新' : '儲存')}</span>
             </button>
           </div>
         </form>
