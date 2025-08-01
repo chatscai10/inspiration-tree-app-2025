@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Plus, Mic, Camera, Lightbulb, X } from 'lucide-react'
-import InspirationForm from './InspirationForm'
+import LocalInspirationForm from './LocalInspirationForm'
 
 const QuickActionButton = () => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -145,7 +145,7 @@ const QuickActionButton = () => {
       )}
 
       {/* 靈感表單 */}
-      <InspirationForm
+      <LocalInspirationForm
         isOpen={showForm}
         onClose={() => setShowForm(false)}
         type={typeof showForm === 'object' ? showForm.type : formType}

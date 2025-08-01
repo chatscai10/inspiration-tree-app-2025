@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Plus, Brain, TreePine, TrendingUp, Lightbulb, ArrowRight } from 'lucide-react'
-import InspirationList from '../components/ui/InspirationList'
+import LocalInspirationList from '../components/ui/LocalInspirationList'
 
 const HomePage = () => {
   return (
@@ -107,7 +107,7 @@ const HomePage = () => {
           <div className="px-4 pt-4 pb-2">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">我的靈感</h2>
           </div>
-          <InspirationList />
+          <LocalInspirationList />
         </div>
 
       </div>
