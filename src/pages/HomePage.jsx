@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Plus, Brain, TreePine, TrendingUp, Lightbulb, ArrowRight } from 'lucide-react'
+import InspirationList from '../components/ui/InspirationList'
 
 const HomePage = () => {
   return (
@@ -101,16 +102,12 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* 最近活動 */}
+        {/* 最近活動 - 靈感列表 */}
         <div className="mobile-card">
-          <div className="p-4">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">最近活動</h2>
-            <div className="text-center py-8 text-gray-500">
-              <Brain className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">還沒有活動記錄</p>
-              <p className="text-xs">開始新增靈感來查看活動</p>
-            </div>
+          <div className="px-4 pt-4 pb-2">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">我的靈感</h2>
           </div>
+          <InspirationList />
         </div>
 
       </div>

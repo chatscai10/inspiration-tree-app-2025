@@ -1,8 +1,66 @@
 import React, { useState } from 'react'
 import { Plus, Mic, Camera, Lightbulb, X } from 'lucide-react'
+import InspirationForm from './InspirationForm'
 
 const QuickActionButton = () => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [formType, setFormType] = useState('text')
+
+  const openForm = (type) => {
+    setFormType(type)
+    setShowForm(true)
+    setIsExpanded(false)
+  }
+
+  const handleVoiceRecording = () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => {
+          openForm('voice')
+        })
+        .catch(() => {
+          alert('無法存取麥克風，請檢查權限設定')
+        })
+    } else {
+      alert('您的瀏覽器不支援語音錄製功能')
+    }
+  }
+
+  const handleCamera = () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(() => {
+          openForm('photo')
+        })
+        .catch(() => {
+          alert('無法存取相機，請檢查權限設定')
+        })
+    } else {
+      alert('您的瀏覽器不支援相機功能')
+    }
+  }
+
+  const generateRandomInspiration = () => {
+    const randomPrompts = [
+      '如果你能改變世界上一件事，會是什麼？',
+      '描述一個完美的星期天',
+      '你最想學習的技能是什麼？',
+      '如果你有超能力，你會怎麼使用它？',
+      '你認為 10 年後的科技會是什麼樣子？',
+      '描述一個你從未去過但很想去的地方',
+      '如果你能與歷史上任何人對話，會選擇誰？',
+      '你最珍貴的回憶是什麼？'
+    ]
+    
+    const randomPrompt = randomPrompts[Math.floor(Math.random() * randomPrompts.length)]
+    setFormType('random')
+    setShowForm({
+      type: 'random',
+      prompt: randomPrompt
+    })
+    setIsExpanded(false)
+  }
 
   const quickActions = [
     {
@@ -10,28 +68,28 @@ const QuickActionButton = () => {
       icon: Plus,
       label: '文字靈感',
       color: 'bg-blue-500',
-      action: () => console.log('新增文字靈感')
+      action: () => openForm('text')
     },
     {
       id: 'voice',
       icon: Mic,
       label: '語音記錄',
       color: 'bg-green-500',
-      action: () => console.log('開始語音記錄')
+      action: handleVoiceRecording
     },
     {
       id: 'photo',
       icon: Camera,
       label: '拍照靈感',
       color: 'bg-purple-500',
-      action: () => console.log('開啟相機')
+      action: handleCamera
     },
     {
       id: 'random',
       icon: Lightbulb,
       label: '隨機觸發',
       color: 'bg-yellow-500',
-      action: () => console.log('隨機靈感觸發')
+      action: generateRandomInspiration
     }
   ]
 
@@ -85,6 +143,14 @@ const QuickActionButton = () => {
           onClick={() => setIsExpanded(false)}
         />
       )}
+
+      {/* 靈感表單 */}
+      <InspirationForm
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        type={typeof showForm === 'object' ? showForm.type : formType}
+        initialContent={typeof showForm === 'object' ? showForm.prompt : ''}
+      />
     </div>
   )
 }

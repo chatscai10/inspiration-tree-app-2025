@@ -1,0 +1,43 @@
+<svg width="144" height="144" viewBox="0 0 144 144" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="144" height="144" rx="24" fill="url(#bgGradient)"/>
+  
+  <!-- 心電圖波形背景 -->
+  <path d="M0 72 L20 72 L25 50 L30 95 L35 25 L40 110 L45 72 L144 72" 
+        stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/>
+  
+  <!-- 主要心電圖波形 -->
+  <path d="M20 72 L35 72 L40 50 L45 95 L50 25 L55 110 L60 72 L124 72" 
+        stroke="white" stroke-width="3" fill="none"/>
+  
+  <!-- 心形圖標 -->
+  <path d="M72 45 C68 40, 60 40, 60 50 C60 40, 52 40, 48 45 C44 50, 48 58, 60 70 C72 58, 76 50, 72 45 Z" 
+        fill="url(#heartGradient)" stroke="white" stroke-width="1"/>
+  
+  <!-- 靈感燈泡 -->
+  <circle cx="100" cy="50" r="8" fill="rgba(255,255,255,0.9)"/>
+  <path d="M96 54 L104 54 M97 57 L103 57 M98 60 L102 60" 
+        stroke="#3b82f6" stroke-width="1.5"/>
+  <ellipse cx="100" cy="47" rx="5" ry="6" fill="#fbbf24"/>
+  
+  <!-- 樹狀結構象徵 -->
+  <circle cx="32" cy="100" r="3" fill="rgba(255,255,255,0.8)"/>
+  <circle cx="45" cy="90" r="2.5" fill="rgba(255,255,255,0.8)"/>
+  <circle cx="55" cy="105" r="2.5" fill="rgba(255,255,255,0.8)"/>
+  <circle cx="42" cy="115" r="2" fill="rgba(255,255,255,0.8)"/>
+  
+  <!-- 連接線 -->
+  <path d="M32 100 L45 90 M32 100 L42 115 M45 90 L55 105" 
+        stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+</svg>
